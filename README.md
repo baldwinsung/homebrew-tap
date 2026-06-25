@@ -11,3 +11,5 @@ brew install --cask baldwinsung/tap/simpleclaudemenubar
 ```
 
 Source: https://github.com/baldwinsung/SimpleClaudeMenuBar
+
+Built with [Claude Code](https://claude.com/claude-code) (Opus).
