@@ -4,9 +4,9 @@
 #   curl -fsSL https://raw.githubusercontent.com/baldwinsung/homebrew-tap/main/install-menubar-apps.sh | bash
 #   ... | bash -s -- toner dns        # only these
 #
-# Apps: claude (SimpleClaudeMenuBar), dns (SimpleDNSMenuBar + its root helper
-# daemon), proxy (SimpleProxyMenuBar), toner (SimpleTonerBar),
-# whois (SimpleWhoisGeo).
+# Apps: proxy (SimpleProxyMenuBar), toner (SimpleTonerBar). claude, dns and
+# whois are archived and no longer installed (uninstall-menubar-apps.sh still
+# removes them).
 #
 # Clones each repo into a temporary folder and runs its own install script,
 # which builds from source and copies the app into /Applications (asking for
@@ -18,11 +18,12 @@ WANT=()
 for a in "$@"; do
   case $a in
     -h|--help) sed -n '2,15p' "$0" 2>/dev/null | sed 's/^# \{0,1\}//'; exit 0 ;;
-    claude|dns|proxy|toner|whois) WANT+=("$a") ;;
-    *) echo "unknown argument: $a (claude dns proxy toner whois)" >&2; exit 2 ;;
+    proxy|toner) WANT+=("$a") ;;
+    claude|dns|whois) echo "$a-menubar is archived and no longer installed" >&2; exit 2 ;;
+    *) echo "unknown argument: $a (proxy toner)" >&2; exit 2 ;;
   esac
 done
-[ ${#WANT[@]} -eq 0 ] && WANT=(claude dns proxy toner whois)
+[ ${#WANT[@]} -eq 0 ] && WANT=(proxy toner)
 
 [ "$(uname -s)" = Darwin ] || { echo "macOS only" >&2; exit 1; }
 command -v git >/dev/null && command -v swift >/dev/null || {
@@ -34,8 +35,6 @@ ok=() failed=() skipped=()
 
 for k in "${WANT[@]}"; do
   case $k in
-    claude) script=scripts/install.sh ;;
-    dns|whois) script=install.sh ;;
     proxy|toner) script=build.sh ;;
   esac
   if [ "$k" = proxy ] && ! xcodebuild -version >/dev/null 2>&1; then
@@ -59,9 +58,7 @@ echo "Installed: ${ok[@]+${ok[*]}}"
 [ ${#failed[@]} -gt 0 ] && { echo "Failed:    ${failed[*]}"; exit 1; }
 for k in ${ok[@]+"${ok[@]}"}; do
   case $k in
-    claude) open -a SimpleClaudeMenuBar ;; dns) open -a SimpleDNSMenuBar ;;
     proxy) open -a SimpleProxyMenuBar ;; toner) open -a SimpleTonerBar ;;
-    whois) open -a SimpleWhoisGeo ;;
   esac 2>/dev/null || true
 done
 echo "Launched. Look for the icons in the menu bar."
