@@ -24,6 +24,16 @@ Source: https://github.com/baldwinsung/claude-menubar
 
 Built with [Claude Code](https://claude.com/claude-code) (Opus).
 
+## Installing all the menu bar apps
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/baldwinsung/homebrew-tap/main/install-menubar-apps.sh | bash
+```
+
+Builds each app from source with its repo's own install script and launches
+it. Needs the Xcode command-line tools (`xcode-select --install`); proxy needs
+full Xcode and is skipped without it. Pick apps with `| bash -s -- toner dns`.
+
 ## Uninstalling the menu bar apps
 
 `uninstall-menubar-apps.sh` removes any of the menu bar apps (claude, dns,
