@@ -20,6 +20,6 @@ xattr -dr com.apple.quarantine "/Applications/SimpleClaudeMenuBar.app"
 Each release is ad-hoc signed with a fresh identity, so this isn't one-time —
 `brew upgrade` re-quarantines the app on every new release too.
 
-Source: https://github.com/baldwinsung/SimpleClaudeMenuBar
+Source: https://github.com/baldwinsung/claude-menubar
 
 Built with [Claude Code](https://claude.com/claude-code) (Opus).

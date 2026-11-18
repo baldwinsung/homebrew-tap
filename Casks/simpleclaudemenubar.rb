@@ -2,10 +2,10 @@ cask "simpleclaudemenubar" do
   version "0.1.7"
   sha256 "13907c4841e6c74c2a205df8cada4b3f8927324770b839a1cc4da3ec89b759ce"
 
-  url "https://github.com/baldwinsung/SimpleClaudeMenuBar/releases/download/v#{version}/SimpleClaudeMenuBar-#{version}.zip"
+  url "https://github.com/baldwinsung/claude-menubar/releases/download/v#{version}/SimpleClaudeMenuBar-#{version}.zip"
   name "SimpleClaudeMenuBar"
   desc "Menu bar app showing Claude Code session usage and reset time"
-  homepage "https://github.com/baldwinsung/SimpleClaudeMenuBar"
+  homepage "https://github.com/baldwinsung/claude-menubar"
 
   depends_on macos: :ventura
 
