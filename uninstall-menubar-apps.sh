@@ -6,8 +6,8 @@
 #   ./uninstall-menubar-apps.sh -n           # dry run: show what would go
 #
 # Apps: claude (SimpleClaudeMenuBar), dns (SimpleDNSMenuBar + its root helper
-# daemon), proxy (SimpleProxyMenuBar), toner (SimpleTonerBar),
-# whois (SimpleWhoisGeo).
+# daemon), proxy (MacProxyMenuBar, formerly SimpleProxyMenuBar), toner
+# (MacTonerMenuBar, formerly SimpleTonerBar), whois (SimpleWhoisGeo).
 #
 # For each app it quits it, uninstalls the Homebrew cask if there is one,
 # removes the app from /Applications and ~/Applications, its login item and
@@ -33,11 +33,14 @@ done
 
 [ "$(uname -s)" = Darwin ] || { echo "macOS only" >&2; exit 1; }
 
-# key  app name  bundle id  brew cask (or -)
+# key  app name  bundle id  brew cask (or -). A key can have several rows
+# (current and former app names); every row is removed.
 APPS="
 claude SimpleClaudeMenuBar com.baldwinsung.SimpleClaudeMenuBar simpleclaudemenubar
 dns    SimpleDNSMenuBar    com.baldwinsung.SimpleDNSMenuBar    -
+proxy  MacProxyMenuBar     com.user.SimpleProxyMenuBar         -
 proxy  SimpleProxyMenuBar  com.user.SimpleProxyMenuBar         -
+toner  MacTonerMenuBar     com.baldwinsung.SimpleTonerBar      -
 toner  SimpleTonerBar      com.baldwinsung.SimpleTonerBar      -
 whois  SimpleWhoisGeo      com.baldwinsung.SimpleWhoisGeo      -
 "
@@ -102,9 +105,11 @@ uninstall() {
 }
 
 for k in "${WANT[@]}"; do
-  line=$(echo "$APPS" | awk -v k="$k" '$1 == k')
-  # shellcheck disable=SC2086
-  uninstall $line
+  # fd 3, so brew/osascript/sudo inside uninstall can't eat the rows
+  while read -r line <&3; do
+    # shellcheck disable=SC2086
+    uninstall $line
+  done 3< <(echo "$APPS" | awk -v k="$k" '$1 == k')
 done
 [ $DRY = 1 ] && echo "(dry run: nothing changed)"
 echo "Done."

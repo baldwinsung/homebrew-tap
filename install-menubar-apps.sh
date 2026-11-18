@@ -4,7 +4,7 @@
 #   curl -fsSL https://raw.githubusercontent.com/baldwinsung/homebrew-tap/main/install-menubar-apps.sh | bash
 #   ... | bash -s -- toner dns        # only these
 #
-# Apps: proxy (SimpleProxyMenuBar), toner (SimpleTonerBar). claude, dns and
+# Apps: proxy (MacProxyMenuBar), toner (MacTonerMenuBar). claude, dns and
 # whois are archived and no longer installed (uninstall-menubar-apps.sh still
 # removes them).
 #
@@ -58,7 +58,7 @@ echo "Installed: ${ok[@]+${ok[*]}}"
 [ ${#failed[@]} -gt 0 ] && { echo "Failed:    ${failed[*]}"; exit 1; }
 for k in ${ok[@]+"${ok[@]}"}; do
   case $k in
-    proxy) open -a SimpleProxyMenuBar ;; toner) open -a SimpleTonerBar ;;
+    proxy) open -a MacProxyMenuBar ;; toner) open -a MacTonerMenuBar ;;
   esac 2>/dev/null || true
 done
 echo "Launched. Look for the icons in the menu bar."
